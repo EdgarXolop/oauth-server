@@ -1,0 +1,15 @@
+server:
+  port: 8585
+
+exi:
+  jwt:
+    security:
+     enabled: true
+    timezone: "GMT"
+    issuer: "edgar_xolop"
+    token:
+      auth:
+        path: "/v1.0/oauth/client_credentials/accesstoken"
+      secret: "my_super_secret_key"
+      expires-in: 3600 #seconds
+    excluded: "/v1.0/public/"
