@@ -43,9 +43,13 @@ public class JwtIO {
     public boolean validateToken(String encodedJWT){
         boolean result = true;
 
-        JWT jwt = jwt(encodedJWT);
+        try {
 
-        result = jwt.isExpired();
+            JWT jwt = jwt(encodedJWT);
+            result = jwt.isExpired();
+        }catch (Exception e){
+            result =  true;
+        }
 
         return result;
     }
