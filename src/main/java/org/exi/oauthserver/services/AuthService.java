@@ -1,6 +1,5 @@
 package org.exi.oauthserver.services;
 
-import org.apache.catalina.User;
 import org.exi.oauthserver.dto.JwtResponse;
 import org.exi.oauthserver.dto.UserDTO;
 import org.exi.oauthserver.security.JwtIO;
