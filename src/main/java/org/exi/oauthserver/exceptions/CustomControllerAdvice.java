@@ -19,7 +19,7 @@ public class CustomControllerAdvice {
     public ResponseEntity<ErrorResponse> handleApiUnauthorizedException(Exception e){
 
         HttpStatus status = HttpStatus.UNAUTHORIZED;
-        ResponseEntity<ErrorResponse> response;
+        ResponseEntity<ErrorResponse> response = null;
 
         if(stackTrace.equals("always")){
             StringWriter stringWriter = new StringWriter();
@@ -35,7 +35,6 @@ public class CustomControllerAdvice {
         }
 
         return response;
-
     }
 
 
@@ -43,15 +42,21 @@ public class CustomControllerAdvice {
     public ResponseEntity<ErrorResponse> handleRuntimeException(Exception e){
 
         HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+        ResponseEntity<ErrorResponse> response = null;
 
-        StringWriter stringWriter = new StringWriter();
-        PrintWriter printWriter = new PrintWriter(stringWriter);
+        if(stackTrace.equals("always")){
+            StringWriter stringWriter = new StringWriter();
+            PrintWriter printWriter = new PrintWriter(stringWriter);
 
-        e.printStackTrace(printWriter);
+            e.printStackTrace(printWriter);
 
-        String stackTrace = stringWriter.toString();
+            String stackTrace = stringWriter.toString();
 
-        return new ResponseEntity<>(new ErrorResponse(status,e.getMessage(),stackTrace),status);
+            response = new ResponseEntity<>(new ErrorResponse(status,e.getMessage(),stackTrace),status);
+        }else{
+            response = new ResponseEntity<>(new ErrorResponse(status,e.getMessage()),status);
+        }
 
+        return response;
     }
 }
