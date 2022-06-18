@@ -11,8 +11,10 @@ exi:
     issuer: "edgar_xolop"
     token:
       auth:
-        path: "/v1.0/oauth/client_credentials/accesstoken"
-      secret: "my_super_secret_key"
-      expires-in: 3600 #seconds
+        path: "/v1.0/oauth/client_credentials/access_token"
+      #openssl rand -base64 128
+      secret: "E/7UfmZ75XXoHKpTS4fSp4tCGQUwv13LpsVnjxaFxUIqn1yAISzzv1xIHVWsJJPLOmJjsdBHyl4+u8IVAeanoC6j5vWKlKGfN1pRXSQjA5vvihRP7H0GvAl9Utr8znM1fRE5EO2wbnUGXV+3W7u/pakN2pROb1Dkjtbt54MKy7k="
+      expires-in: 3600 #seconds 1 hour
+      refresh-expires-in: 3600 #seconds 1 hour
     excluded:
       path: "/v1.0/version"

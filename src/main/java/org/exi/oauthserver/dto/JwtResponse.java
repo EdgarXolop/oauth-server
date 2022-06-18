@@ -12,6 +12,8 @@ public class JwtResponse {
     private String token_type;
     @JsonProperty(defaultValue = "access_token")
     private String accessToken;
+    @JsonProperty(defaultValue = "refresh_token")
+    private String refreshToken;
     @JsonProperty(value = "expires_in")
     private int expiresIn;
     @JsonProperty(defaultValue = "issued_at")

@@ -1,15 +1,16 @@
-package org.exi.oauthserver.dto;
+package org.exi.oauthserver.model;
 
 import lombok.Builder;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 @Data
 @Builder
-public class UserDTO implements Serializable {
+public class User implements Serializable {
 
-    private String uid;
+    private UUID uuid;
     private String name;
     private String lastName;
     private String role;

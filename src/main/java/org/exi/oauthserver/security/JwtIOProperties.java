@@ -25,7 +25,8 @@ public class JwtIOProperties {
     public static class Token {
         private Auth auth;
         private String secret;
-        private int expiresin;
+        private int expiresIn;
+        private int refreshExpiresIn;
     }
 
     @Data

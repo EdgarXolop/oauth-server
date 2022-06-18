@@ -18,30 +18,33 @@ public class InterceptorJWTIo implements HandlerInterceptor {
     @Value("#{'${exi.jwt.excluded.path}'.split(',')}")
     private List<String> excluded;
 
+    private final String AUTH_HEADER = "Authorization";
+    private final String TOKEN_TYPE = "Bearer";
+
     @Autowired
     private JwtIO jwtIO;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
-        boolean validate = false;
+        boolean isValid = false;
 
         String uri = request.getRequestURI();
 
         if(uri.equals(AUTH_PATH) || excluded(uri))
-            validate = true;
+            isValid = true;
 
-        if(!validate && request.getHeader("Authorization") != null && !request.getHeader("Authorization").isEmpty()){
-            String token = request.getHeader("Authorization").replace("Bearer", "");
+        if(!isValid && request.getHeader(AUTH_HEADER) != null && !request.getHeader(AUTH_HEADER).isEmpty()){
+            String token = request.getHeader(AUTH_HEADER).replace(TOKEN_TYPE, "");
 
-            validate = !jwtIO.validateToken(token);
+            isValid = !jwtIO.validateToken(token);
         }
 
-        if(!validate){
+        if(!isValid){
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
         }
 
-        return validate;
+        return isValid;
     }
 
     private boolean excluded(String path){

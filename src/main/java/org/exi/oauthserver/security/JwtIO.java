@@ -21,10 +21,28 @@ public class JwtIO {
     private String TIMEZONE;
     @Value("${exi.jwt.token.expires-in:3600}")
     private int EXPIRES_IN;
+    @Value("${exi.jwt.token.refresh-expires-in:36000}")
+    private int REFRESH_EXPIRES_IN;
     @Value("${exi.jwt.issuer:none}")
     private String ISSUER;
 
     public String generateToken(Object src){
+        String subject = GsonUtils.serialize(src);
+        Signer signer = HMACSigner.newSHA256Signer(SECRET);
+
+        TimeZone timeZone = TimeZone.getTimeZone(TIMEZONE);
+        ZonedDateTime zonedDateTime = ZonedDateTime.now(timeZone.toZoneId()).plusSeconds(EXPIRES_IN);
+
+        JWT jwt = new JWT()
+                .setIssuer(ISSUER)
+                .setIssuedAt(ZonedDateTime.now(timeZone.toZoneId()))
+                .setSubject(subject)
+                .setExpiration(zonedDateTime);
+
+        return JWT.getEncoder().encode(jwt,signer);
+    }
+
+    public String generateRefreshToken(Object src){
         String subject = GsonUtils.serialize(src);
         Signer signer = HMACSigner.newSHA256Signer(SECRET);
 
